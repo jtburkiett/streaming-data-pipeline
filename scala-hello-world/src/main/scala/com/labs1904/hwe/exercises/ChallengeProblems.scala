@@ -1,5 +1,7 @@
 package com.labs1904.hwe.exercises
 
+import java.util
+
 object ChallengeProblems {
   /*
     1. Define a function that takes in a String and returns that string with no changes
@@ -7,6 +9,9 @@ object ChallengeProblems {
     Params - String
     Returns - String
   */
+  def sameString(str: String): String = {
+    str
+  }
 
 
   /*
@@ -14,21 +19,28 @@ object ChallengeProblems {
   Params - None
   Returns - String
    */
-
+  def helloWorld(): String = {
+    "Hello World!"
+  }
   /*
   3. Write a function that takes in a list and returns the total size of the list
   -Note - Use the .size method
   Params - List[Int]
   Returns - Int
    */
-
+  def listSize(list: List[Int]): Integer = {
+    list.length
+  }
   /*
   4. Write a function that takes in an int and adds an int that you create within the function and returns the addition of the two together
   Note - Your variable must be a val and must be equal to 25
   Params - Int
   Returns - Int
    */
-
+  def sumInts(i: Int): Int = {
+    val v = 25
+    i + v
+  }
 
   /*
    5. Write a function that takes in a list of strings, and return a list of strings where every letter is capitalized
@@ -36,13 +48,17 @@ object ChallengeProblems {
    Params - List[String]
    Returns - List[String]
 */
-
+  def upper(list: List[String]): List[String] = {
+    list.map(s => s.toUpperCase())
+  }
   /*
   6. Write a function that returns a new list, where only elements of the list passed in that are 0 or positive numbers are kept.
   Params - List[Int]
   Returns - List[Int]
    */
+  def filterNegatives(list: List[Int]): List[Int] = {
 
+  }
   /*
   7. Returns a new list, where only the elements passed in containing "car" are kept to the new list.
   Params - List[String]

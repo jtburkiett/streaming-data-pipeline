@@ -4,57 +4,57 @@ import org.scalatest.FunSpec
 
 
 class ChallengeProblemsTests extends FunSpec{
-//describe("Challenge One") {
-//  it("Checks if the string returned is the same as the string passed in"){
-//    val input: String = "Hello!"
-//    val expected: String = "Hello!"
-//
-//    val actual = ChallengeProblems.sameString(input)
-//    assert(expected === actual)
-//  }
-//}
+describe("Challenge One") {
+  it("Checks if the string returned is the same as the string passed in"){
+    val input: String = "Hello!"
+    val expected: String = "Hello!"
 
-//  describe("Challenge Two") {
-//    it("Checks if the string returned is the same as the string passed in"){
-//      val expected: String = "Hello World!"
+    val actual = ChallengeProblems.sameString(input)
+    assert(expected === actual)
+  }
+}
+
+  describe("Challenge Two") {
+    it("Checks if the string returned is the same as the string passed in"){
+      val expected: String = "Hello World!"
+
+      val actual = ChallengeProblems.helloWorld()
+      assert(expected === actual)
+    }
+  }
 //
-//      val actual = ChallengeProblems.helloWorld()
-//      assert(expected === actual)
-//    }
-//  }
-//
-//  describe("Challenge Three") {
-//    it("Checks if list size is correct"){
-//      val input:List[Int] = List(1,2,3,4,5,6)
-//      val expected = 6
-//      val actual = ChallengeProblems.listSize(input)
-//      assert(expected === actual)
-//    }
-//  }
-//
-//  describe("Challenge Four") {
-//    it("Checks if sum is correct"){
-//      val input:Int = 7
-//      val expected = 32
-//      val actual = ChallengeProblems.sumInts(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge Five") {
-//    it("Uses .map to uppercase everything") {
-//      val input = List("Scala", "is", "dope")
-//      val expected = List("SCALA", "IS", "DOPE")
-//      val actual = ChallengeProblems.upper(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge Six") {
-//    it("Checks if filtered out values are correct") {
-//      val input = List(0,-3,13,25)
-//      val expected = List(0,13,25)
-//      val actual = ChallengeProblems.filterNegatives(input)
-//      assert(expected === actual)
-//    }
+  describe("Challenge Three") {
+    it("Checks if list size is correct"){
+      val input:List[Int] = List(1,2,3,4,5,6)
+      val expected = 6
+      val actual = ChallengeProblems.listSize(input)
+      assert(expected === actual)
+    }
+  }
+
+  describe("Challenge Four") {
+    it("Checks if sum is correct"){
+      val input:Int = 7
+      val expected = 32
+      val actual = ChallengeProblems.sumInts(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge Five") {
+    it("Uses .map to uppercase everything") {
+      val input = List("Scala", "is", "dope")
+      val expected = List("SCALA", "IS", "DOPE")
+      val actual = ChallengeProblems.upper(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge Six") {
+    it("Checks if filtered out values are correct") {
+      val input = List(0,-3,13,25)
+      val expected = List(0,13,25)
+      val actual = ChallengeProblems.filterNegatives(input)
+      assert(expected === actual)
+    }
 //    it("Checks if all negatives, then should be an empty list") {
 //      val input = List(-3,-5,-6)
 //      val expected = List()
