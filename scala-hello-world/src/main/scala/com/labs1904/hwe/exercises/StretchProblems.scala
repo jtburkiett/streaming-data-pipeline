@@ -1,5 +1,7 @@
 package com.labs1904.hwe.exercises
 
+import scala.util.control.Breaks.{break, breakable}
+
 object StretchProblems {
 
   /*
@@ -15,5 +17,4 @@ If no larger number can be created, return -1
     //TODO: Implement me!
     0
   }
-
 }
