@@ -57,27 +57,33 @@ object ChallengeProblems {
   Returns - List[Int]
    */
   def filterNegatives(list: List[Int]): List[Int] = {
-
+    list.filter(i => i >= 0)
   }
   /*
   7. Returns a new list, where only the elements passed in containing "car" are kept to the new list.
   Params - List[String]
   Returns - List[String]
  */
-
+  def containsCar(list: List[String]): List[String]= {
+    list.filter(s => s.matches(".*car.*"))
+  }
   /*
     8. Returns the sum of all numbers passed in.
     Params - List[Int]
     Returns - Int
    */
-
+  def sumList(list: List[Int]): Int = {
+    list.sum
+  }
   /*
   9. Write a function that takes in an integer with a cats age, and return the human age equivalent.
     A human year is equivalent to 4 cat years
     Params - Int
     Returns - Int
    */
-
+  def catsAge(i: Int): Int = {
+    i * 4
+  }
   /*
   10. Same question as #9, but this time you are given a Option[Int]
     If an int is provided, returns a cats age for the human's age equivalent.
@@ -86,7 +92,9 @@ object ChallengeProblems {
     -Params - Option[Int]
     -Returns - Option[Int]
  */
-
+  def catsAgeOption(a: Option[Int]): Option[Int] = {
+    a.getOrElse()
+  }
   /*
   11. Write a function that takes in a list of ints, and return the minimum of the ints provided
   Params - List

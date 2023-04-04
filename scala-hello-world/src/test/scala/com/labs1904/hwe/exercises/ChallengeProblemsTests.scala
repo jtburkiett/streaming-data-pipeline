@@ -50,60 +50,61 @@ describe("Challenge One") {
   }
   describe("Challenge Six") {
     it("Checks if filtered out values are correct") {
-      val input = List(0,-3,13,25)
-      val expected = List(0,13,25)
+      val input = List(0, -3, 13, 25)
+      val expected = List(0, 13, 25)
       val actual = ChallengeProblems.filterNegatives(input)
       assert(expected === actual)
     }
-//    it("Checks if all negatives, then should be an empty list") {
-//      val input = List(-3,-5,-6)
-//      val expected = List()
-//      val actual = ChallengeProblems.filterNegatives(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge Seven") {
-//    it("Checks if words with car in it are kept") {
-//      val input = List("racecar", "cardinal", "dancer")
-//      val expected = List("racecar", "cardinal")
-//      val actual = ChallengeProblems.containsCar(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge Eight") {
-//    it("Checks if sum of all ints is correct") {
-//      val input = List(0,23,4,-1,8)
-//      val expected = 34
-//      val actual = ChallengeProblems.sumList(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge Nine") {
-//    it("Returns cat age from human age when passed an int") {
-//      val input = 3
-//      val expected = 12
-//      val actual = ChallengeProblems.catsAge(input)
-//      assert(expected === actual)
-//    }
-//  }
-//  describe("Challenge 10") {
-//    it("Returns the cat age from a human age when passed a Some") {
-//      val input: Option[Int] = Some(4)
-//      val expected: Option[Int] = Some(16)
-//
-//      val actual = ChallengeProblems.catsAgeOption(input)
-//      assert(expected === actual)
-//    }
-//
-//    it("Returns a None when passed a None") {
-//      val input: Option[Int] = None
-//      val expected: Option[Int] = None
-//
-//      val actual = ChallengeProblems.catsAgeOption(input)
-//      assert(expected === actual)
-//    }
-//  }
-//
+
+    it("Checks if all negatives, then should be an empty list") {
+      val input = List(-3,-5,-6)
+      val expected = List()
+      val actual = ChallengeProblems.filterNegatives(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge Seven") {
+    it("Checks if words with car in it are kept") {
+      val input = List("racecar", "cardinal", "dancer")
+      val expected = List("racecar", "cardinal")
+      val actual = ChallengeProblems.containsCar(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge Eight") {
+    it("Checks if sum of all ints is correct") {
+      val input = List(0,23,4,-1,8)
+      val expected = 34
+      val actual = ChallengeProblems.sumList(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge Nine") {
+    it("Returns cat age from human age when passed an int") {
+      val input = 3
+      val expected = 12
+      val actual = ChallengeProblems.catsAge(input)
+      assert(expected === actual)
+    }
+  }
+  describe("Challenge 10") {
+    it("Returns the cat age from a human age when passed a Some") {
+      val input: Option[Int] = Some(4)
+      val expected: Option[Int] = Some(16)
+
+      val actual = ChallengeProblems.catsAgeOption(input)
+      assert(expected === actual)
+    }
+
+    it("Returns a None when passed a None") {
+      val input: Option[Int] = None
+      val expected: Option[Int] = None
+
+      val actual = ChallengeProblems.catsAgeOption(input)
+      assert(expected === actual)
+    }
+  }
+
 //  describe("Challenge Eleven") {
 //    it("Checks if minimum value in list is returned") {
 //      val input:List[Int] = List(1,-4,19,10,0)
