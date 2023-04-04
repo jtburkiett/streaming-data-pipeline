@@ -92,20 +92,24 @@ object ChallengeProblems {
     -Params - Option[Int]
     -Returns - Option[Int]
  */
-  def catsAgeOption(a: Option[Int]): Option[Int] = {
-    a.getOrElse()
+  def catsAgeOption(age: Option[Int]): Option[Int] = {
+    age.map(a => a * 4)
   }
   /*
   11. Write a function that takes in a list of ints, and return the minimum of the ints provided
   Params - List
   Returns - Int
    */
-
+  def minimum(list: List[Int]): Int = {
+    list.min
+  }
   /*
   12. Same as question 11, but this time you are given a list of Option[Ints], returns the minimum of the Ints provided.
   If no ints are provided, return None.
  */
-
+  def minimumOption(list: List[Option[Int]]): Option[Int] = {
+    list.min
+  }
 
 
 
