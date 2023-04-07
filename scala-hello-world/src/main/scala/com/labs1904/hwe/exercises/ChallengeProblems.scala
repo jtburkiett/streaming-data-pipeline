@@ -73,7 +73,11 @@ object ChallengeProblems {
     Returns - Int
    */
   def sumList(list: List[Int]): Int = {
-    list.sum
+    if(list.isEmpty){
+      0
+    } else {
+      list.head + sumList(list.tail)
+    }
   }
   /*
   9. Write a function that takes in an integer with a cats age, and return the human age equivalent.
