@@ -25,23 +25,31 @@ object KafkaHomework {
 
     // Create the KafkaConsumer
     //TODO: Write in a comment what these lines are doing. What are the properties necessary to instantiate a consumer?
+    // Below we are initializing a consumer and pointing it to the kafka cluster.
     val properties = getProperties(BOOTSTRAP_SERVER)
     val consumer: KafkaConsumer[String, String] = new KafkaConsumer[String, String](properties)
 
 
     //TODO: What does this line mean? Write your answer in a comment below
+
+    //We are telling the consumer to subscribe to the topic we declared earlier.
     consumer.subscribe(Arrays.asList(Topic))
 
     while (true) {
       // TODO: Change this to be every 5 seconds
-      val duration: Duration = Duration.ofMillis(100)
+      val duration: Duration = Duration.ofMillis(5000)
 
       //TODO: Look up the ConsumerRecords class below, in your own words what is the class designed to do?
+
+      // the poll method is how kafka clients read data from kafka. When it is called, the consumer
+      // will fetch records from the last consumed offset.
       val records: ConsumerRecords[String, String] = consumer.poll(duration)
 
       records.forEach((record: ConsumerRecord[String, String]) => {
         // Retrieve the message from each record
         //TODO: Describe why we need the .value() at the end of record
+
+        //we need to see the message contained within the ConsumerRecord object.
         val message = record.value()
 
         //TODO: If you were given the values for the bootstrap servers in class, run the app with the green play button and make sure it runs successfully. You should see message(s) printing out to the screen
