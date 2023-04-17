@@ -23,12 +23,13 @@ class StretchProblemsTests extends FunSpec {
       assert(actual === expected)
     }
   }
-//  describe("Testing NextBiggestNumber - Working with numbers, strings, and lists") {
-//    it("should return the next biggest number for straightforward examples") {
-//      assert(StretchProblems.getNextBiggestNumber(12) === 21)
-//      assert(StretchProblems.getNextBiggestNumber(123) === 132)
-//      assert(StretchProblems.getNextBiggestNumber(67809) === 67890)
-//    }
+  describe("Testing NextBiggestNumber - Working with numbers, strings, and lists") {
+    it("should return the next biggest number for straightforward examples") {
+      assert(StretchProblems.getNextBiggestNumber(12) === 21)
+      assert(StretchProblems.getNextBiggestNumber(123) === 132)
+      assert(StretchProblems.getNextBiggestNumber(67809) === 67890)
+    }
+  }
 //
 //    it("should return -1 for straightforward examples") {
 //      assert(StretchProblems.getNextBiggestNumber(21) === -1)
