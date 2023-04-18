@@ -2,15 +2,19 @@ package com.labs1904.hwe.consumers
 
 import com.labs1904.hwe.util.Constants._
 import com.labs1904.hwe.util.Util
+import com.labs1904.hwe.util.Util.mapNumberToWord
 import net.liftweb.json.DefaultFormats
 import org.apache.kafka.clients.consumer.{ConsumerRecord, ConsumerRecords, KafkaConsumer}
-import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.slf4j.LoggerFactory
 
 import java.time.Duration
 import java.util.Arrays
 
+case class RawUser(id: Int, username: String, fullName: String, email: String, birthday: String)
+case class EnrichedUser(id: Int, username: String, fullName: String, email: String, birthday: String, numberAsWord: String, hweDeveloper: String)
 object HweConsumer {
+  val joeB : String = "Joe B"
   private val logger = LoggerFactory.getLogger(getClass)
 
   val consumerTopic: String = "question-1"
@@ -29,7 +33,7 @@ object HweConsumer {
     val producer = new KafkaProducer[String, String](producerProperties)
 
     // Subscribe to the topic
-    consumer.subscribe(Arrays.asList(consumerTopic))
+    consumer.subscribe(Arrays.asList(producerTopic))
 
     while ( {
       true
@@ -43,6 +47,15 @@ object HweConsumer {
         val message = record.value()
         logger.info(s"Message Received: $message")
         // TODO: Add business logic here!
+        println(s"Here is your message $message")
+//        val splitMessage = message.split("\t")
+//        val rawUser = RawUser(splitMessage(0).toInt, splitMessage(1), splitMessage(2), splitMessage(3), splitMessage(4))
+//        val enrichedUser = EnrichedUser(rawUser.id, rawUser.username, rawUser.fullName, rawUser.email, rawUser.birthday, mapNumberToWord(rawUser.id), joeB)
+//        println(s"Here is the enrichedUser $enrichedUser")
+//        val commaSeparatedEnrichedUser = enrichedUser.id + "," + enrichedUser.username +
+//          enrichedUser.fullName + "," + enrichedUser.email + "," + enrichedUser.birthday +
+//          enrichedUser.numberAsWord + "," + enrichedUser.hweDeveloper
+//        producer.send(new ProducerRecord[String, String](producerTopic, commaSeparatedEnrichedUser))
 
       })
     }
