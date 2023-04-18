@@ -33,7 +33,7 @@ object HweConsumer {
     val producer = new KafkaProducer[String, String](producerProperties)
 
     // Subscribe to the topic
-    consumer.subscribe(Arrays.asList(producerTopic))
+    consumer.subscribe(Arrays.asList(consumerTopic))
 
     while ( {
       true
@@ -48,10 +48,12 @@ object HweConsumer {
         logger.info(s"Message Received: $message")
         // TODO: Add business logic here!
         println(s"Here is your message $message")
-//        val splitMessage = message.split("\t")
-//        val rawUser = RawUser(splitMessage(0).toInt, splitMessage(1), splitMessage(2), splitMessage(3), splitMessage(4))
-//        val enrichedUser = EnrichedUser(rawUser.id, rawUser.username, rawUser.fullName, rawUser.email, rawUser.birthday, mapNumberToWord(rawUser.id), joeB)
-//        println(s"Here is the enrichedUser $enrichedUser")
+        val splitMessage = message.split("\t")
+        val rawUser = RawUser(splitMessage(0).toInt, splitMessage(1), splitMessage(2), splitMessage(3), splitMessage(4))
+        val enrichedUser = EnrichedUser(rawUser.id, rawUser.username, rawUser.fullName, rawUser.email, rawUser.birthday, mapNumberToWord(rawUser.id), joeB)
+        println(s"Here is the enrichedUser $enrichedUser")
+        val testEnrichedUser = enrichedUser.productIterator.mkString(",")
+        println(s"Here is the test ${testEnrichedUser}")
 //        val commaSeparatedEnrichedUser = enrichedUser.id + "," + enrichedUser.username +
 //          enrichedUser.fullName + "," + enrichedUser.email + "," + enrichedUser.birthday +
 //          enrichedUser.numberAsWord + "," + enrichedUser.hweDeveloper
