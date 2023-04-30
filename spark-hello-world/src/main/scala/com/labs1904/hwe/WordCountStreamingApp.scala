@@ -59,7 +59,8 @@ object WordCountStreamingApp {
       sentences.printSchema
 
       // TODO: implement me
-      //val counts = ???
+//      val counts = sentences.flatMap(s => s.split(" ")).groupBy(desc("value")).count().limit(10)
+//      counts.show(truncate = false)
 
       val query = sentences.writeStream
         .outputMode(OutputMode.Append())
@@ -67,7 +68,14 @@ object WordCountStreamingApp {
         .trigger(Trigger.ProcessingTime("5 seconds"))
         .start()
 
+//      val query2 = counts.writeStream
+//        .outputMode(OutputMode.Append())
+//        .format("console")
+//        .trigger(Trigger.ProcessingTime("5 seconds"))
+//        .start()
+
       query.awaitTermination()
+//      query2.awaitTermination()
     } catch {
       case e: Exception => logger.error(s"$jobName error in main", e)
     }
