@@ -2,10 +2,11 @@ package com.labs1904.hwe
 
 import com.labs1904.hwe.ConnectionTest.logger
 import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
-import org.apache.hadoop.hbase.client.{Connection, ConnectionFactory, Get, Put, Scan}
+import org.apache.hadoop.hbase.client.{Connection, ConnectionFactory, Delete, Get, Put, Scan}
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.logging.log4j.{LogManager, Logger}
 
+import java.util
 import scala.collection.JavaConverters.iterableAsScalaIterableConverter
 
 object MyApp {
@@ -33,20 +34,32 @@ object MyApp {
         logger.debug(result)
       })
       logger.debug(s"final count is $count")
-//      var count = 0
-//      scan.asScala.foreach(result =>
-//        if(result.containsNonEmptyColumn(Bytes.toBytes("f1"), Bytes.toBytes("ID"))){
-//          count+=1
-//          logger.debug(result.getValue(Bytes.toBytes("f1"), Bytes.toBytes("ID")))
-//        })
-//      logger.debug(s"here is the count $count")
+
       val get = new Get(Bytes.toBytes("99"))
+      val newUser = table.get(get);
+      logger.debug(newUser)
+      val get1 = new Get(Bytes.toBytes("9005729"))
+      val get2 = new Get(Bytes.toBytes("500600"))
+      val get3 = new Get(Bytes.toBytes("30059640"))
+      val get4 = new Get(Bytes.toBytes("6005263"))
+      val get5 = new Get(Bytes.toBytes("800182"))
 
 //      val get = new Get(Bytes.toBytes("10000001")).addColumn(Bytes.toBytes("f1"), Bytes.toBytes("mail"))
-      val result = table.get(get)
+      import java.util
+      val queryRowList = new util.ArrayList[Get]
+      queryRowList.add(get1)
+      queryRowList.add(get2)
+      queryRowList.add(get3)
+      queryRowList.add(get4)
+      queryRowList.add(get5)
+      val result = table.get(queryRowList)
 //      val message = Bytes.toString(result.getFamilyMap(Bytes.toBytes("f1")).get(Bytes.toBytes("mail")))
 //      logger.debug(message)
+      result.foreach(r => logger.debug(s"Email : ${Bytes.toString(r.getValue(Bytes.toBytes("f1"), Bytes.toBytes("mail")))}"))
       logger.debug(result)
+      table.delete(new Delete(Bytes.toBytes("99")))
+      val newResult = table.get(get)
+      logger.debug(s"here is the new result $newResult")
 
     } catch {
       case e: Exception => logger.error("Error in main", e)
