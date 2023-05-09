@@ -1,15 +1,25 @@
 package com.labs1904.spark
 
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.{OutputMode, Trigger}
+
+import scala.Console.println
 
 
 /**
  * Spark Structured Streaming app
  *
  */
+
 object StreamingPipeline {
+
+  case class RawReview(marketplace: String, customerId: Int, reviewId: String, productId: String, productParent: String,
+                       productTitle: String, productCategory: String, starRating: Int, helpfulVotes: Int,
+                       totalVotes: Int, vine: String, verifiedPurchase: String, reviewHeadline: String,
+                       reviewBody: String, reviewDate: String)
+
   lazy val logger: Logger = Logger.getLogger(this.getClass)
   val jobName = "StreamingPipeline"
 
@@ -20,10 +30,10 @@ object StreamingPipeline {
   val hdfsUsername = "CHANGEME" // TODO: set this to your handle
 
   //Use this for Windows
-  val trustStore: String = "src\\main\\resources\\kafka.client.truststore.jks"
+//  val trustStore: String = "src\\main\\resources\\kafka.client.truststore.jks"
   //Use this for Mac
-  //val trustStore: String = "src/main/resources/kafka.client.truststore.jks"
-
+  val trustStore: String = "src/main/resources/kafka.client.truststore.jks"
+  val Topic: String = "reviews"
   def main(args: Array[String]): Unit = {
     try {
       val spark = SparkSession.builder()
@@ -50,15 +60,33 @@ object StreamingPipeline {
         .selectExpr("CAST(value AS STRING)").as[String]
 
       // TODO: implement logic here
-      val result = ds
-
+      val result = ds.map(d => d.split("\t"))
+      val reviews = result.map(r => RawReview(
+        r(0),
+        r(1).toInt,
+        r(2),
+        r(3),
+        r(4),
+        r(5),
+        r(6),
+        r(7).toInt,
+        r(8).toInt,
+        r(9).toInt,
+        r(10),
+        r(11),
+        r(12),
+        r(13),
+        r(14),
+      ))
       // Write output to console
-      val query = result.writeStream
+      val query = reviews.writeStream
         .outputMode(OutputMode.Append())
         .format("console")
         .option("truncate", false)
         .trigger(Trigger.ProcessingTime("5 seconds"))
         .start()
+
+
 
       // Write output to HDFS
 //      val query = result.writeStream
