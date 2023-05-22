@@ -87,6 +87,7 @@ object StreamingPipeline {
         .format("json")
         .option("path", s"/user/${hdfsUsername}/reviews_json")
         .option("checkpointLocation", s"/user/${hdfsUsername}/reviews_checkpoint")
+        .partitionBy("starRating")
         .trigger(Trigger.ProcessingTime("5 seconds"))
         .start()
       query.awaitTermination()
