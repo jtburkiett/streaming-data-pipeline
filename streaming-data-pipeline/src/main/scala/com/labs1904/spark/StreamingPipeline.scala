@@ -1,11 +1,13 @@
 package com.labs1904.spark
 
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import caseClasses.EnrichedReviewConstructor.createEnrichedReview
+import caseClasses.RawReviewConstructor.rawReviewFromCSV
+import caseClasses.UserInfoConstructor.getUserInfo
+import org.apache.hadoop.hbase.client.ConnectionFactory
+import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.{OutputMode, Trigger}
-
-import scala.Console.println
 
 
 /**
@@ -14,11 +16,6 @@ import scala.Console.println
  */
 
 object StreamingPipeline {
-
-  case class RawReview(marketplace: String, customerId: Int, reviewId: String, productId: String, productParent: String,
-                       productTitle: String, productCategory: String, starRating: Int, helpfulVotes: Int,
-                       totalVotes: Int, vine: String, verifiedPurchase: String, reviewHeadline: String,
-                       reviewBody: String, reviewDate: String)
 
   lazy val logger: Logger = Logger.getLogger(this.getClass)
   val jobName = "StreamingPipeline"
@@ -29,15 +26,14 @@ object StreamingPipeline {
   val password = "CHANGEME"
   val hdfsUsername = "CHANGEME" // TODO: set this to your handle
 
-  //Use this for Windows
-//  val trustStore: String = "src\\main\\resources\\kafka.client.truststore.jks"
-  //Use this for Mac
   val trustStore: String = "src/main/resources/kafka.client.truststore.jks"
   val Topic: String = "reviews"
   def main(args: Array[String]): Unit = {
     try {
       val spark = SparkSession.builder()
         .config("spark.sql.shuffle.partitions", "3")
+        .config("spark.hadoop.dfs.client.use.datanode.hostname", "true")
+        .config("spark.hadoop.fs.defaultFS", hdfsUrl)
         .appName(jobName)
         .master("local[*]")
         .getOrCreate()
@@ -59,43 +55,40 @@ object StreamingPipeline {
         .load()
         .selectExpr("CAST(value AS STRING)").as[String]
 
-      // TODO: implement logic here
-      val result = ds.map(d => d.split("\t"))
-      val reviews = result.map(r => RawReview(
-        r(0),
-        r(1).toInt,
-        r(2),
-        r(3),
-        r(4),
-        r(5),
-        r(6),
-        r(7).toInt,
-        r(8).toInt,
-        r(9).toInt,
-        r(10),
-        r(11),
-        r(12),
-        r(13),
-        r(14),
-      ))
+      val enrichedReviews = ds.mapPartitions(partition => {
+        val conf = HBaseConfiguration.create()
+        conf.set("hbase.zookeeper.quorum", "CHANGEME")
+        val connection = ConnectionFactory.createConnection(conf)
+        val table = connection.getTable(TableName.valueOf("CHANGEME"))
+
+        val enrichedReview = partition.map(row => {
+          val rawReview = rawReviewFromCSV(row)
+          val userInfo = getUserInfo(rawReview, table)
+
+          createEnrichedReview(rawReview, userInfo)
+        }).toList.iterator
+
+        connection.close()
+
+        enrichedReview
+      })
+
       // Write output to console
-      val query = reviews.writeStream
-        .outputMode(OutputMode.Append())
-        .format("console")
-        .option("truncate", false)
-        .trigger(Trigger.ProcessingTime("5 seconds"))
-        .start()
-
-
-
-      // Write output to HDFS
-//      val query = result.writeStream
+//      val query = customers.writeStream
 //        .outputMode(OutputMode.Append())
-//        .format("json")
-//        .option("path", s"/user/${hdfsUsername}/reviews_json")
-//        .option("checkpointLocation", s"/user/${hdfsUsername}/reviews_checkpoint")
+//        .format("console")
+//        .option("truncate", false)
 //        .trigger(Trigger.ProcessingTime("5 seconds"))
 //        .start()
+
+      // Write output to HDFS
+      val query = enrichedReviews.writeStream
+        .outputMode(OutputMode.Append())
+        .format("json")
+        .option("path", s"/user/${hdfsUsername}/reviews_json")
+        .option("checkpointLocation", s"/user/${hdfsUsername}/reviews_checkpoint")
+        .trigger(Trigger.ProcessingTime("5 seconds"))
+        .start()
       query.awaitTermination()
     } catch {
       case e: Exception => logger.error(s"$jobName error in main", e)
